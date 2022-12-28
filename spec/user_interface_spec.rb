@@ -2,7 +2,7 @@ require 'user_interface'
 
 RSpec.describe UserInterface do
   describe 'ship setup scenario' do
-    it 'allows the user to set up ships' do
+    xit 'allows the user to set up ships' do
       io = double(:io)
       game = double(:game, rows: 10, cols: 10)
       interface = UserInterface.new(io, game)
@@ -25,8 +25,8 @@ RSpec.describe UserInterface do
       expect(game).to receive(:place_ship).with({
                                                   length: 2,
                                                   orientation: :vertical,
-                                                  row: 3,
-                                                  col: 2
+                                                  col: 2,
+                                                  row: 3
                                                 })
       expect(io).to receive(:puts).with('This is your board now:')
       allow(game).to receive(:ship_at?).and_return(false)

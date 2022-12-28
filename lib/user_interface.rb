@@ -7,10 +7,12 @@ class UserInterface
   def run
     show 'Welcome to the game!'
     show 'Set up your ships first.'
-    show "You have these ships remaining: #{ships_unplaced_message}"
-    prompt_for_ship_placement
-    show 'This is your board now:'
-    show format_board
+    while @game.unplaced_ships.length > 0
+      show "You have these ships remaining: #{ships_unplaced_message}"
+      prompt_for_ship_placement
+      show 'This is your board now:'
+      show format_board
+    end
   end
 
   private
@@ -39,9 +41,11 @@ class UserInterface
     @game.place_ship(
       length: ship_length.to_i,
       orientation: { 'v' => :vertical, 'h' => :horizontal }.fetch(ship_orientation),
-      row: ship_row.to_i,
-      col: ship_col.to_i
+      col: ship_col.to_i,
+      row: ship_row.to_i
     )
+  rescue StandardError => e
+    puts "#{e.message}"
   end
 
   def format_board
