@@ -4,9 +4,11 @@ class Game
     @rows = 10
     @cols = 10
     @ships_at = []
+    @hit = []
+    @miss = []
   end
 
-  attr_reader :unplaced_ships, :rows, :cols
+  attr_reader :unplaced_ships, :rows, :cols, :hit
 
   def place_ship(ship)
     coords = [[ship[:col], ship[:row]]]
@@ -16,6 +18,45 @@ class Game
 
   def ship_at?(x, y)
     @ships_at.include? [x, y]
+  end
+
+  def hit?(x, y)
+    @hit.include? [x, y]
+  end
+
+  def miss?(x, y)
+    @miss.include? [x, y]
+  end
+
+  def format_board
+    (1..@rows).map do |y|
+      (1..@cols).map do |x|
+        next 'S' if ship_at?(x, y)
+
+        next '.'
+      end.join
+    end.join("\n")
+  end
+
+  def format_target_board
+    (1..@rows).map do |y|
+      (1..@cols).map do |x|
+        next '@' if hit?(x, y)
+        next 'x' if miss?(x, y)
+
+        next '.'
+      end.join
+    end.join("\n")
+  end
+
+  def attempt_shot(player, x, y)
+    if player.ship_at?(x, y)
+      @hit << [x, y]
+      puts 'You hit a ship!'
+    else
+      @miss << [x, y]
+      puts 'You missed!'
+    end
   end
 
   private
