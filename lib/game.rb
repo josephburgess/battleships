@@ -10,7 +10,7 @@ class Game
     @miss = []
   end
 
-  attr_reader :unplaced_ships, :rows, :cols, :hit
+  attr_reader :unplaced_ships, :rows, :cols, :hit, :miss
 
   def place_ship(ship)
     set_of_coords = [[ship[:col], ship[:row]]]
